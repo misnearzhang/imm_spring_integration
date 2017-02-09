@@ -68,4 +68,19 @@ public class IndexAction {
             writer.close();
         }
     }
+    @RequestMapping("addUser")
+    public void AddUser(HttpServletRequest request, HttpServletResponse response){
+        PrintWriter writer=null;
+        try {
+            User user=new User();
+
+            writer=response.getWriter();
+            writer.print("success");
+        }catch (Exception e){
+            e.printStackTrace();
+            writer.print(e.getCause());
+        }finally {
+            writer.close();
+        }
+    }
 }

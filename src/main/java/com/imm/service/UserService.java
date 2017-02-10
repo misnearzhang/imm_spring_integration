@@ -9,6 +9,4 @@ import java.util.List;
  */
 public interface UserService {
     public User getUserById(Integer userId);
-
-    public List<User> getAllUser();
 }

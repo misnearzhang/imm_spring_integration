@@ -27,9 +27,9 @@ public class IndexAction {
         PrintWriter writer=null;
         Gson gson=new Gson();
         try {
-            List<User> userlist=userService.getAllUser();
+            User user=userService.getUserById(1);
             writer=response.getWriter();
-            writer.print(gson.toJson(userlist));
+            writer.print(gson.toJson(user));
         }catch (Exception e){
             e.printStackTrace();
             writer.print(e.getCause());
@@ -69,11 +69,9 @@ public class IndexAction {
         }
     }
     @RequestMapping("addUser")
-    public void AddUser(HttpServletRequest request, HttpServletResponse response){
+    public void AddUser(HttpServletRequest request, HttpServletResponse response,String userName){
         PrintWriter writer=null;
         try {
-            User user=new User();
-
             writer=response.getWriter();
             writer.print("success");
         }catch (Exception e){

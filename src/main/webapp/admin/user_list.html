@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>list</title>
+    <script type="application/javascript" src="/resource/js/jquery-1.7.2.min.js"></script>
+
+    <script type="application/javascript">
+        jQuery(document).ready(function(){
+
+        });
+
+        function  validate(ths) {
+            var name=jQuery("ths").value;
+            jQuery.ajax({url:"/validate.htm?userName="+name,success:function(result){
+                if(result!="true"){
+                    jQuery("#err").html(result);
+                }
+            }});
+        }
+
+        function clear_() {
+            jQuery("#err").hide();
+        }
+
+        function add() {
+            var userName=jQuery("#userName").val();
+            jQuery.ajax({url:"/add.htm?userName="+userName,success:function(result){
+                if(result>0){
+                    jQuery("#data_").append("<tr><td>"+result+"</td><td>"+userName+"</td></tr>")
+                }else{
+                    jQuery("#err").show();
+
+                }
+            }});
+        }
+
+    </script>
+</head>
+<body>
+<div>
+    <form action="/add.htm" id="form" method="post">
+        <input type="text" id="userName" value="" style="width: 200px"  onclick="clear_();" />
+        <p id="err"  style="color: #ff2620;display: none">该名称已经被暂用 请选择其他的名称</p>
+        <input type="button" value="添加" onclick="add();"/>
+    </form>
+</div>
+<div>
+    <table id="data_"  border="0" cellspacing="0" cellpadding="0" >
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>姓名</th>
+        </tr>
+        </thead>
+        #if($users.size()>0)
+        #foreach($user in $users)
+        <tr>
+            <td align="center">$user.id</td>
+            <td align="center">$user.name</td>
+            <td align="center"><a href="" class="blue">编辑</a>|<a href="javascript:void(0);" onclick="if(confirm('删除后不可恢复，是否继续？'))window.location.href='delete.htm?id='+$user.id" class="blue">删除</a></td>
+        </tr>
+        #end
+        #end
+    </table>
+
+</div>
+
+
+</body>
+</html>

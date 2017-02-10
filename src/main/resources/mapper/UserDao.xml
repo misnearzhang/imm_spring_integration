@@ -54,4 +54,13 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <select id="listAll" resultType="com.imm.model.User">
+        SELECT * FROM user
+    </select>
+    <select id="findCountName" resultType="java.lang.Integer">
+        SELECT count(*) from user WHERE name=#{name}
+    </select>
+    <select id="findMaxId" resultType="java.lang.Integer">
+        SELECT max(id) FROM user
+    </select>
 </mapper>

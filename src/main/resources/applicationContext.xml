@@ -126,7 +126,7 @@
     </bean>
     <bean id="velocityEngine"
           class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-        <property name="resourceLoaderPath" value="/"/>
+        <property name="resourceLoaderPath" value="/admin"/>
     </bean>
     <!-- Velocity配置结束-->
 

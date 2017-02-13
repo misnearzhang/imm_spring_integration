@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>editor</title>
+
+
+    <script charset="utf-8" src="/resource/editor/kindeditor.js"></script>
+    <script charset="utf-8" src="/resource/editor/lang/zh_CN.js"></script>
+    <script type="application/javascript" src="/resource/js/jquery-1.7.2.min.js"></script>
+    <script>
+        var options = {
+            cssPath : '/resource/editor/themes/default/default.css',
+            filterMode : true,
+            uploadJson : '/upload.htm',
+            fileManagerJson : '/file_manager.htm',
+            allowFileManager : true,
+            allowImageUpload : true,
+            width : '700px',
+            height:'400px',
+            syncType:"form",
+            afterCreate : function() {
+                var self = this;
+                self.sync();
+            },
+            afterChange : function() {
+                var self = this;
+                self.sync();
+            },
+            afterBlur : function() {
+                var self = this;
+                self.sync();
+            },
+            items:['source', '|', 'fullscreen', 'undo', 'redo', 'print', 'cut', 'copy', 'paste',
+                'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                'superscript', '|', 'selectall', 'clearhtml','quickformat','|',
+                'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'table', 'hr', 'emoticons', 'link', 'unlink', '|', 'about']
+        };
+        jQuery(document).ready(function() {
+
+            var editor = KindEditor.create('textarea[name="content"]', options);
+        });
+    </script>
+</head>
+<body>
+<textarea id="editor_id" name="content" style="width:700px;height:300px;">
+        &lt;strong&gt;HTML内容&lt;/strong&gt;
+    </textarea>
+</body>
+</html>

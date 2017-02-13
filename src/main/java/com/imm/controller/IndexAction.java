@@ -1,13 +1,11 @@
 package com.imm.controller;
 
-import com.google.gson.Gson;
 import com.imm.model.User;
 import com.imm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -99,5 +97,16 @@ public class IndexAction {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @RequestMapping("edit.htm")
+  public ModelAndView Edit(HttpServletRequest request, HttpServletResponse response) {
+    ModelAndView mv = new ModelAndView("/view/admin/admin_editor.html");
+    try {
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+    return mv;
   }
 }

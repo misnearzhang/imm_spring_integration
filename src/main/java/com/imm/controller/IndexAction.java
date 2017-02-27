@@ -19,7 +19,7 @@ public class IndexAction {
 
   @RequestMapping("list.htm")
   public ModelAndView Index(HttpServletRequest request, HttpServletResponse response) {
-    ModelAndView mv = new ModelAndView("/admin/user_list.html");
+    ModelAndView mv = new ModelAndView("/view/user_list.html");
     try {
       List<User> userList = userService.getAllUser();
       if (userList != null && userList.size() > 0) {

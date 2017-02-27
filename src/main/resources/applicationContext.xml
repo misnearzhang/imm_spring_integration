@@ -81,6 +81,7 @@
         <property name="dataSource" ref="dataSource"/>
         <!-- 自动扫描mapping.xml文件，**表示迭代查找 -->
         <property name="mapperLocations" value="classpath:mapper/**/*.xml"/>
+        <property name="configLocation" value="classpath:mybatis.xml"/>
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -88,7 +89,6 @@
         <property name="annotationClass" value="com.imm.dao.base.MyBatisRepository"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
-
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
           destroy-method="close">
         <property name="driverClassName" value="${driverClassName}"/>
@@ -100,6 +100,7 @@
         <property name="maxIdle" value="${maxIdle}"/>
         <property name="minIdle" value="${minIdle}"/>
     </bean>
+
     <!--持久化结束-->
     <!-- Velocity配置开始-->
     <!-- 配置Velocity视图解析器 -->

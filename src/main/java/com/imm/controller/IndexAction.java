@@ -66,13 +66,10 @@ public class IndexAction {
   @RequestMapping("add.htm")
   public void AddUser(HttpServletRequest request, HttpServletResponse response, String userName) {
     PrintWriter writer = null;
-    User user = new User();
-    user.setName(userName);
     try {
       writer = response.getWriter();
       boolean is = userService.validateUserName(userName);
       if (is) {
-        int result = userService.addUser(user);
         int max = userService.getMaxId();
         writer.print(max);
       } else {

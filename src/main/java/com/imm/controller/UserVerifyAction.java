@@ -2,6 +2,8 @@ package com.imm.controller;
 
 import com.imm.push.PushService;
 import com.imm.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class UserVerifyAction {
+    private final Logger logger = LogManager.getLogger( UserVerifyAction.class );
+
     @Autowired
     UserService userService;
     @Autowired
@@ -26,8 +30,8 @@ public class UserVerifyAction {
      *  core服务器验证用户信息用的
      */
     @RequestMapping("/imm/userVerify.htm")
-    public void userVerify(){
-
+    public void userVerify(HttpServletRequest request, HttpServletResponse response,String params){
+        logger.debug("testLog");
     }
 
 
@@ -42,8 +46,10 @@ public class UserVerifyAction {
             //用户登录成功 给core推送口令  同时给用户返回口令
             if(pushService.isConnected()){
                 pushService.send("hello world\r\n");
+                logger.info("send message success  and then put it into a queue");
             }else{
                 pushService.connect();
+                logger.info("connecting success!");
                 pushService.send("hello world\r\n");
             }
         }else{

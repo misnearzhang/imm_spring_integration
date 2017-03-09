@@ -22,6 +22,7 @@
                 <value>classpath*:properties/redis.properties</value>
                 <value>classpath*:properties/jdbc.properties</value>
                 <value>classpath*:properties/coreserver.properties</value>
+                <value>classpath*:properties/log4j2.properties</value>
             </list>
         </property>
     </bean>

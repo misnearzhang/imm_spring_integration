@@ -15,6 +15,8 @@ public interface UserService {
 
     boolean validateUserName(String name);
 
+    boolean loginByAccountAndPassword(String account,String password);
+
     int getMaxId();
 
     int delete(Integer id);

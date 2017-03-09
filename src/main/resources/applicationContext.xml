@@ -21,6 +21,7 @@
             <list>
                 <value>classpath*:properties/redis.properties</value>
                 <value>classpath*:properties/jdbc.properties</value>
+                <value>classpath*:properties/coreserver.properties</value>
             </list>
         </property>
     </bean>
@@ -132,12 +133,20 @@
     <!-- Velocity配置结束-->
 
     <!-- 将session放入redis -->
-    <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"/>
+    <!--<bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"/>
 
     <bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
         <property name="hostName" value="${redis-server}"/>
         <property name="password" value=""/>
         <property name="port" value="6379"/>
         <property name="database" value="10"/>
+    </bean>-->
+
+    <!--管理推送服务器连接-->
+    <bean id="pushService" class="com.imm.push.PushService">
+
+        <constructor-arg index="0" value="${core-server-host}"/>
+        <constructor-arg index="1" value="${core-server-port}"/>
     </bean>
+
 </beans>

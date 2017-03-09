@@ -63,4 +63,7 @@
     <select id="findMaxId" resultType="java.lang.Integer">
         SELECT max(id) FROM user
     </select>
+    <select id="findByAccountAndPassword" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM user u WHERE u.account =#{account} AND u.password=#{password}
+    </select>
 </mapper>

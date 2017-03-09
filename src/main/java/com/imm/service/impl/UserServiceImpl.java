@@ -36,7 +36,15 @@ public class UserServiceImpl implements UserService {
     }
   }
 
-    public int getMaxId() {
+  public boolean loginByAccountAndPassword(String account, String password) {
+    int user=userDao.findByAccountAndPassword(account,password);
+    if(user>0){
+      return true;
+    }
+    return false;
+  }
+
+  public int getMaxId() {
         return userDao.findMaxId();
     }
 

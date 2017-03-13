@@ -4,6 +4,8 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:websocket="http://www.springframework.org/schema/websocket"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
@@ -11,8 +13,7 @@
        http://www.springframework.org/schema/mvc 
        http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/websocket 
-    http://www.springframework.org/schema/websocket/spring-websocket.xsd
-	">
+    http://www.springframework.org/schema/websocket/spring-websocket.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
 
     <context:component-scan base-package="com.imm"/>
     <!--配置文件加载开始-->
@@ -23,6 +24,7 @@
                 <value>classpath*:properties/jdbc.properties</value>
                 <value>classpath*:properties/coreserver.properties</value>
                 <value>classpath*:properties/log4j2.properties</value>
+                <value>classpath*:properties/mq.properties</value>
             </list>
         </property>
     </bean>
@@ -40,24 +42,6 @@
     </mvc:interceptors>-->
     <!--拦截器结束-->
 
-    <!-- websocket消息处理bean -->
-    <!--<bean id="workhandlerr" class="com.money.interceptor.WorkHandler"/>
-    <websocket:handlers>
-    &lt;!&ndash; 配置消息处理bean和路径的映射关系 &ndash;&gt;
-    <websocket:mapping path="/connection" handler="workhandlerr"/>
-    &lt;!&ndash; 配置握手拦截器 &ndash;&gt;
-    <websocket:handshake-interceptors>
-        <bean class="com.money.interceptor.HandShake"/>
-    </websocket:handshake-interceptors>
-    &lt;!&ndash; 开启sockjs，去掉则关闭sockjs &ndash;&gt;
-    &lt;!&ndash; <websocket:sockjs/> &ndash;&gt;
-    </websocket:handlers>
-    &lt;!&ndash; 配置websocket消息的最大缓冲区长度 &ndash;&gt;
-    <bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
-        <property name="maxTextMessageBufferSize" value="8192"/>
-        <property name="maxBinaryMessageBufferSize" value="8192"/>
-    </bean>
--->
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize">
@@ -150,4 +134,80 @@
         <constructor-arg index="1" value="${core-server-port}"/>
     </bean>
 
+
+    <!--下是mq配置-->
+
+    <task:executor id="amqpConnectionTaskExecutor" pool-size="${mq_poolsize}" />
+
+    <!-- queue litener 观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 -->
+    <!-- <rabbit:annotation-driven /> -->
+
+    <!-- rabbit 连接工厂-->
+    <rabbit:connection-factory
+            id="connectionFactory"
+            addresses="${mq_host}"
+            virtual-host="${mq_vhost}"
+            username="${mq_username}"
+            password="${mq_userpassword}"
+            thread-factory="threadFactory"
+            channel-cache-size="60"
+            executor="amqpConnectionTaskExecutor"
+    />
+    <!-- 定义线程的名字 -->
+    <bean id="threadFactory" class="org.springframework.scheduling.concurrent.CustomizableThreadFactory">
+        <constructor-arg value="rabbitmq-" />
+    </bean>
+
+    <rabbit:topic-exchange name="${exchange-from-core-server}" auto-declare="true" >
+        <rabbit:bindings>
+            <rabbit:binding queue="${queue-from-core-server}" pattern="1111111111"/>
+        </rabbit:bindings>
+    </rabbit:topic-exchange>
+
+
+    <!--定义rabbit template用于数据的接收和发送 -->
+    <rabbit:template id="amqpTemplate"
+                     connection-factory="connectionFactory"
+                     retry-template="retryTemplate"
+    />
+
+    <!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->
+    <rabbit:admin connection-factory="connectionFactory" />
+
+    <!--定义queue -->
+    <rabbit:queue name="${queue-from-core-server}" durable="true" auto-delete="false" exclusive="false" />
+
+
+    <!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象-->
+    <rabbit:listener-container connection-factory="connectionFactory">
+        <rabbit:listener queue-names="${queue-from-core-server}" ref="receiverFromCoreServer" method="onMessage"/>
+    </rabbit:listener-container>
+
+
+    <bean id="fixedBackOff" class="org.springframework.util.backoff.FixedBackOff">
+        <property name="maxAttempts" value="3"/>
+        <property name="interval" value="3000"/>
+    </bean>
+    <bean id="retryTemplate" class="org.springframework.retry.support.RetryTemplate">
+        <!-- 让步策略 -->
+        <property name="backOffPolicy">
+            <!-- 这里的策略就是,时间逐步增长 -->
+            <bean class="org.springframework.retry.backoff.ExponentialBackOffPolicy">
+                <!-- 初始区间 -->
+                <property name="initialInterval" value="500" />
+                <!-- 倍数 -->
+                <property name="multiplier" value="10.0" />
+                <!-- 最大间隔 -->
+                <property name="maxInterval" value="10000" />
+            </bean>
+        </property>
+        <!-- 重试策略 -->
+        <property name="retryPolicy" >
+            <bean class="org.springframework.retry.policy.SimpleRetryPolicy">
+                <!-- 最大次数 -->
+                <property name="maxAttempts" value="3"/>
+            </bean>
+        </property>
+    </bean>
+    <!--mq配置结束-->
 </beans>

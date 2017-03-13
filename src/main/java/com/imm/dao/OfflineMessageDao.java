@@ -31,12 +31,14 @@ public interface OfflineMessageDao {
      * @mbg.generated
      */
     @Insert({
-        "insert into offline_message (id, from, ",
-        "to, content, status, ",
-        "addTime, updateTime)",
-        "values (#{id,jdbcType=INTEGER}, #{from,jdbcType=INTEGER}, ",
-        "#{to,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, ",
-        "#{addtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})"
+        "insert into offline_message (id, message_from, ",
+        "message_to, message_content, ",
+        "message_status, addTime, ",
+        "updateTime)",
+        "values (#{id,jdbcType=INTEGER}, #{messageFrom,jdbcType=INTEGER}, ",
+        "#{messageTo,jdbcType=INTEGER}, #{messageContent,jdbcType=VARCHAR}, ",
+        "#{messageStatus,jdbcType=CHAR}, #{addtime,jdbcType=TIMESTAMP}, ",
+        "#{updatetime,jdbcType=TIMESTAMP})"
     })
     int insert(OfflineMessage record);
 
@@ -56,7 +58,7 @@ public interface OfflineMessageDao {
      */
     @Select({
         "select",
-        "id, from, to, content, status, addTime, updateTime",
+        "id, message_from, message_to, message_content, message_status, addTime, updateTime",
         "from offline_message",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -79,10 +81,10 @@ public interface OfflineMessageDao {
      */
     @Update({
         "update offline_message",
-        "set from = #{from,jdbcType=INTEGER},",
-          "to = #{to,jdbcType=INTEGER},",
-          "content = #{content,jdbcType=VARCHAR},",
-          "status = #{status,jdbcType=CHAR},",
+        "set message_from = #{messageFrom,jdbcType=INTEGER},",
+          "message_to = #{messageTo,jdbcType=INTEGER},",
+          "message_content = #{messageContent,jdbcType=VARCHAR},",
+          "message_status = #{messageStatus,jdbcType=CHAR},",
           "addTime = #{addtime,jdbcType=TIMESTAMP},",
           "updateTime = #{updatetime,jdbcType=TIMESTAMP}",
         "where id = #{id,jdbcType=INTEGER}"

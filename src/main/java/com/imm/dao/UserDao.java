@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
 @Component
 @MyBatisRepository
 public interface UserDao {
@@ -99,11 +98,11 @@ public interface UserDao {
     })
     int updateByPrimaryKey(User record);
 
-    List<User> listAll();
-
     int findCountName(String name);
 
-    int findMaxId();
+    List<User> listAll();
 
-    int findByAccountAndPassword(String account,String password);
+    int findByAccountAndPassword(String account, String password);
+
+    int findMaxId();
 }

@@ -1,6 +1,8 @@
 package com.imm.controller;
 
+import com.imm.model.OfflineMessage;
 import com.imm.model.User;
+import com.imm.service.OfflineMessageService;
 import com.imm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,12 +12,16 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 
 /** Created by Misnearzhang on 2017/2/6. */
 @Controller
 public class IndexAction {
   @Autowired UserService userService;
+
+  @Autowired
+  OfflineMessageService offlineMessageService;
 
   @RequestMapping("list.htm")
   public ModelAndView Index(HttpServletRequest request, HttpServletResponse response) {
@@ -107,4 +113,24 @@ public class IndexAction {
     return mv;
   }
 
+  @RequestMapping("addMessage.htm")
+  public ModelAndView addMessage(HttpServletRequest request, HttpServletResponse response){
+    OfflineMessage message1=new OfflineMessage();
+    message1.setMessageFrom(12);
+    message1.setMessageTo(34);
+    message1.setMessageStatus("1");
+    message1.setAddtime(new Date());
+    message1.setUpdatetime(new Date());
+    message1.setMessageContent("one two three four five six seven eight nine ten");
+    offlineMessageService.saveMessage(message1);
+
+    ModelAndView mv = new ModelAndView("/view/user_list.html");
+    try {
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+    return mv;
+  }
 }

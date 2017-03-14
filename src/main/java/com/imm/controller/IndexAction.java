@@ -4,7 +4,9 @@ import com.imm.model.OfflineMessage;
 import com.imm.model.User;
 import com.imm.service.OfflineMessageService;
 import com.imm.service.UserService;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,10 +20,19 @@ import java.util.List;
 /** Created by Misnearzhang on 2017/2/6. */
 @Controller
 public class IndexAction {
+
+  @Value("$exchange") String exchange;
+  @Value("$rout") String route;
+  @Value("$queue") String queue;
+
   @Autowired UserService userService;
 
-  @Autowired
-  OfflineMessageService offlineMessageService;
+  @Autowired OfflineMessageService offlineMessageService;
+
+  /*
+  mq sender
+   */
+  @Autowired AmqpTemplate amqpTemplate;
 
   @RequestMapping("list.htm")
   public ModelAndView Index(HttpServletRequest request, HttpServletResponse response) {
@@ -96,7 +107,7 @@ public class IndexAction {
         i = Integer.parseInt(id);
       }
       userService.delete(i);
-        response.sendRedirect("/list.htm");
+      response.sendRedirect("/list.htm");
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -114,8 +125,8 @@ public class IndexAction {
   }
 
   @RequestMapping("addMessage.htm")
-  public ModelAndView addMessage(HttpServletRequest request, HttpServletResponse response){
-    OfflineMessage message1=new OfflineMessage();
+  public ModelAndView addMessage(HttpServletRequest request, HttpServletResponse response) {
+    OfflineMessage message1 = new OfflineMessage();
     message1.setMessageFrom(12);
     message1.setMessageTo(34);
     message1.setMessageStatus("1");
@@ -132,5 +143,27 @@ public class IndexAction {
       return null;
     }
     return mv;
+  }
+
+  @RequestMapping("test")
+  public void getUserMessage(HttpServletRequest request, HttpServletResponse response) {}
+
+  @RequestMapping("/imm/uploadImg.htm")
+  public void uploadImg() {
+    //对外提供服务
+  }
+
+  @RequestMapping("/imm/validateUser.htm")
+  public void validateUser() {
+    //验证用户  提供用户登录验证 然后发送消息给core
+  }
+
+  @RequestMapping("/imm/getOfflineMessage")
+  public void getOfflineMessage() {
+    //获取用户的离线消息
+  }
+
+  @RequestMapping()
+  public void testaaa(){
   }
 }

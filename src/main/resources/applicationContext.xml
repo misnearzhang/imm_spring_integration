@@ -17,7 +17,8 @@
 
     <context:component-scan base-package="com.imm"/>
     <!--配置文件加载开始-->
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
         <property name="locations">
             <list>
                 <value>classpath*:properties/redis.properties</value>
@@ -41,6 +42,20 @@
         </mvc:interceptor>
     </mvc:interceptors>-->
     <!--拦截器结束-->
+
+    <!-- websocket消息处理bean -->
+    <bean id="chatWebSocketHandler" class="com.imm.websocket.handler.ChatWebSocketHandler"/>
+    <websocket:handlers allowed-origins="*">
+        <websocket:mapping path="/connection.htm" handler="chatWebSocketHandler"/>
+        <websocket:handshake-interceptors>
+            <bean class="com.imm.websocket.interceptor.WebSocketHandshakeInterceptor"/>
+        </websocket:handshake-interceptors>
+    </websocket:handlers>
+
+    <bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
+        <property name="maxTextMessageBufferSize" value="8192"/>
+        <property name="maxBinaryMessageBufferSize" value="8192"/>
+    </bean>
 
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -126,13 +141,6 @@
         <property name="port" value="6379"/>
         <property name="database" value="10"/>
     </bean>-->
-
-    <!--管理推送服务器连接-->
-    <bean id="pushService" class="com.imm.push.PushService">
-
-        <constructor-arg index="0" value="${core-server-host}"/>
-        <constructor-arg index="1" value="${core-server-port}"/>
-    </bean>
 
 
     <!--下是mq配置-->

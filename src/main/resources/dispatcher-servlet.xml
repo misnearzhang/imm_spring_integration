@@ -8,5 +8,17 @@
        http://www.springframework.org/schema/context/spring-context.xsd
        ">
 <context:component-scan base-package="com.imm"/>
+    <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="locations">
+            <list>
+                <value>classpath*:properties/redis.properties</value>
+                <value>classpath*:properties/jdbc.properties</value>
+                <value>classpath*:properties/coreserver.properties</value>
+                <value>classpath*:properties/log4j2.properties</value>
+                <value>classpath*:properties/mq.properties</value>
+            </list>
+        </property>
+    </bean>
 </beans>
 

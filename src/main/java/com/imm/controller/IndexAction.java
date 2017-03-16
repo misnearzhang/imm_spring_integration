@@ -21,9 +21,9 @@ import java.util.List;
 @Controller
 public class IndexAction {
 
-  @Value("$exchange") String exchange;
-  @Value("$rout") String route;
-  @Value("$queue") String queue;
+  @Value("${exchange-from-core-server}") String exchange;
+  @Value("${rout-from-core-server}") String route;
+  @Value("${queue-from-core-server}") String queue;
 
   @Autowired UserService userService;
 
@@ -163,7 +163,9 @@ public class IndexAction {
     //获取用户的离线消息
   }
 
-  @RequestMapping()
-  public void testaaa(){
+  @RequestMapping("sendMQ")
+  public void sendMQ(HttpServletRequest request, HttpServletResponse response){
+    String message=request.getParameter("value");
+    amqpTemplate.convertAndSend(exchange,route,message.getBytes());
   }
 }

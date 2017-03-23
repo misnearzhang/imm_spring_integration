@@ -1,8 +1,6 @@
 package com.imm.mq;
 
 import com.google.gson.Gson;
-import com.imm.model.OfflineMessage;
-import com.imm.service.OfflineMessageService;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,15 +11,13 @@ public class ReceiverFromCoreServer {
 
   private final Logger logger =
       org.apache.logging.log4j.LogManager.getLogger(ReceiverFromCoreServer.class);
-  @Autowired OfflineMessageService messageService;
 
   private Gson gson = new Gson();
 
   public void onMessage(byte[] msg) throws Exception{
     String message = new String(msg);
     logger.info("receive message:{}", message);
-    OfflineMessage ofm = gson.fromJson(message, OfflineMessage.class);
-    boolean success = messageService.saveMessage(ofm);
+    boolean success = true;
     if (success) {
     } else {
     }

@@ -1,8 +1,6 @@
 package com.imm.controller;
 
-import com.imm.model.OfflineMessage;
 import com.imm.model.User;
-import com.imm.service.OfflineMessageService;
 import com.imm.service.UserService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +25,10 @@ public class IndexAction {
 
   @Autowired UserService userService;
 
-  @Autowired OfflineMessageService offlineMessageService;
-
   /*
   mq sender
    */
-  @Autowired AmqpTemplate amqpTemplate;
+  //@Autowired AmqpTemplate amqpTemplate;
 
   @RequestMapping("list.htm")
   public ModelAndView Index(HttpServletRequest request, HttpServletResponse response) {
@@ -80,7 +76,7 @@ public class IndexAction {
     }
   }
 
-  @RequestMapping("add.htm")
+ /* @RequestMapping("add.htm")
   public void AddUser(HttpServletRequest request, HttpServletResponse response, String userName) {
     PrintWriter writer = null;
     try {
@@ -98,7 +94,7 @@ public class IndexAction {
       writer.close();
     }
   }
-
+*/
   @RequestMapping("delete.htm")
   public void delete(HttpServletRequest request, HttpServletResponse response, String id) {
     try {
@@ -124,7 +120,7 @@ public class IndexAction {
     return mv;
   }
 
-  @RequestMapping("addMessage.htm")
+  /*@RequestMapping("addMessage.htm")
   public ModelAndView addMessage(HttpServletRequest request, HttpServletResponse response) {
     OfflineMessage message1 = new OfflineMessage();
     message1.setMessageFrom(12);
@@ -144,7 +140,7 @@ public class IndexAction {
     }
     return mv;
   }
-
+*/
   @RequestMapping("test")
   public void getUserMessage(HttpServletRequest request, HttpServletResponse response) {}
 
@@ -166,6 +162,6 @@ public class IndexAction {
   @RequestMapping("sendMQ")
   public void sendMQ(HttpServletRequest request, HttpServletResponse response){
     String message=request.getParameter("value");
-    amqpTemplate.convertAndSend(exchange,route,message.getBytes());
+    //amqpTemplate.convertAndSend(exchange,route,message.getBytes());
   }
 }

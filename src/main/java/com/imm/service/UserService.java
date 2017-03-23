@@ -13,11 +13,7 @@ public interface UserService {
 
     List<User> getAllUser();
 
-    boolean validateUserName(String name);
-
-    boolean loginByAccountAndPassword(String account,String password);
-
-    int getMaxId();
-
     int delete(Integer id);
+
+    boolean loginByAccountAndPassword(String account, String password);
 }

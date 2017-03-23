@@ -1,8 +1,9 @@
 package com.imm.service.impl;
 
-import com.imm.dao.UserDao;
+import com.imm.dao.UserMapper;
 import com.imm.model.User;
 import com.imm.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @Service("userService")
 @Transactional
 public class UserServiceImpl implements UserService {
-  @Resource private UserDao userDao;
+  @Resource private UserMapper userDao;
 
   public int addUser(User user) {
     return userDao.insert(user);
@@ -27,28 +28,15 @@ public class UserServiceImpl implements UserService {
     return userDao.listAll();
   }
 
-  public boolean validateUserName(String name) {
-    int count = userDao.findCountName(name);
-    if (count == 0) {
-      return true;
-    } else {
-      return false;
+  public int delete(Integer id) {
+        return userDao.deleteByPrimaryKey(id);
     }
-  }
 
-  public boolean loginByAccountAndPassword(String account, String password) {
-    int user=userDao.findByAccountAndPassword(account,password);
-    if(user>0){
+  public boolean loginByAccountAndPassword(String userAccount, String password) {
+    User user=userDao.checkUser(userAccount,password);
+    if(user!=null){
       return true;
     }
     return false;
   }
-
-  public int getMaxId() {
-        return userDao.findMaxId();
-    }
-
-    public int delete(Integer id) {
-        return userDao.deleteByPrimaryKey(id);
-    }
 }

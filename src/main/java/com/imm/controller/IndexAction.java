@@ -1,8 +1,7 @@
 package com.imm.controller;
 
-import com.imm.model.User;
+import com.imm.model.po.User;
 import com.imm.service.UserService;
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.List;
 
 /** Created by Misnearzhang on 2017/2/6. */

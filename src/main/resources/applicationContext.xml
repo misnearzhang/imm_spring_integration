@@ -151,7 +151,7 @@
     <!-- <rabbit:annotation-driven /> -->
 
     <!-- rabbit 连接工厂-->
-    <rabbit:connection-factory
+    <!--<rabbit:connection-factory
             id="connectionFactory"
             addresses="${mq_host}"
             virtual-host="${mq_vhost}"
@@ -161,7 +161,7 @@
             channel-cache-size="60"
             executor="amqpConnectionTaskExecutor"
     />
-    <!-- 定义线程的名字 -->
+    &lt;!&ndash; 定义线程的名字 &ndash;&gt;
     <bean id="threadFactory" class="org.springframework.scheduling.concurrent.CustomizableThreadFactory">
         <constructor-arg value="rabbitmq-" />
     </bean>
@@ -173,20 +173,20 @@
     </rabbit:topic-exchange>
 
 
-    <!--定义rabbit template用于数据的接收和发送 -->
+    &lt;!&ndash;定义rabbit template用于数据的接收和发送 &ndash;&gt;
     <rabbit:template id="amqpTemplate"
                      connection-factory="connectionFactory"
                      retry-template="retryTemplate"
     />
 
-    <!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->
+    &lt;!&ndash;通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 &ndash;&gt;
     <rabbit:admin connection-factory="connectionFactory" />
 
-    <!--定义queue -->
+    &lt;!&ndash;定义queue &ndash;&gt;
     <rabbit:queue name="${queue-from-core-server}" durable="true" auto-delete="false" exclusive="false" />
 
 
-    <!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象-->
+    &lt;!&ndash; queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象&ndash;&gt;
     <rabbit:listener-container connection-factory="connectionFactory">
         <rabbit:listener queue-names="${queue-from-core-server}" ref="receiverFromCoreServer" method="onMessage"/>
     </rabbit:listener-container>
@@ -197,25 +197,25 @@
         <property name="interval" value="3000"/>
     </bean>
     <bean id="retryTemplate" class="org.springframework.retry.support.RetryTemplate">
-        <!-- 让步策略 -->
+        &lt;!&ndash; 让步策略 &ndash;&gt;
         <property name="backOffPolicy">
-            <!-- 这里的策略就是,时间逐步增长 -->
+            &lt;!&ndash; 这里的策略就是,时间逐步增长 &ndash;&gt;
             <bean class="org.springframework.retry.backoff.ExponentialBackOffPolicy">
-                <!-- 初始区间 -->
+                &lt;!&ndash; 初始区间 &ndash;&gt;
                 <property name="initialInterval" value="500" />
-                <!-- 倍数 -->
+                &lt;!&ndash; 倍数 &ndash;&gt;
                 <property name="multiplier" value="10.0" />
-                <!-- 最大间隔 -->
+                &lt;!&ndash; 最大间隔 &ndash;&gt;
                 <property name="maxInterval" value="10000" />
             </bean>
         </property>
-        <!-- 重试策略 -->
+        &lt;!&ndash; 重试策略 &ndash;&gt;
         <property name="retryPolicy" >
             <bean class="org.springframework.retry.policy.SimpleRetryPolicy">
-                <!-- 最大次数 -->
+                &lt;!&ndash; 最大次数 &ndash;&gt;
                 <property name="maxAttempts" value="3"/>
             </bean>
         </property>
-    </bean>
+    </bean>-->
     <!--mq配置结束-->
 </beans>

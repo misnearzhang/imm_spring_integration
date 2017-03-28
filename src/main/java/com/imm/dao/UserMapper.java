@@ -1,7 +1,7 @@
 package com.imm.dao;
 
 import com.imm.dao.base.MyBatisRepository;
-import com.imm.model.User;
+import com.imm.model.po.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 

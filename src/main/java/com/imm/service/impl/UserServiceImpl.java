@@ -1,9 +1,8 @@
 package com.imm.service.impl;
 
 import com.imm.dao.UserMapper;
-import com.imm.model.User;
+import com.imm.model.po.User;
 import com.imm.service.UserService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

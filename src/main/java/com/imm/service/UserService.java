@@ -1,6 +1,6 @@
 package com.imm.service;
 
-import com.imm.model.User;
+import com.imm.model.po.User;
 
 import java.util.List;
 

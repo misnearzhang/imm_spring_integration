@@ -37,7 +37,7 @@
                 jQuery("#status").val("链接失败");
             }
 
-            jQuery("#refresh").onclick(function () {
+            jQuery("#refresh").on('click',function () {
                 websocket = new WebSocket(wsServer);
             });
         });

@@ -39,18 +39,9 @@ public class IndexAction {
    */
     //@Autowired AmqpTemplate amqpTemplate;
 
-    @RequestMapping("list.htm")
+    @RequestMapping("index.htm")
     public ModelAndView Index(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mv = new ModelAndView("/view/user_list.html");
-        try {
-            List<User> userList = userService.getAllUser();
-            if (userList != null && userList.size() > 0) {
-                mv.addObject("users", userList);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        ModelAndView mv = new ModelAndView("/view/chat/index.html");
         return mv;
     }
 

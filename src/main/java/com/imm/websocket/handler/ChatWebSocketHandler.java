@@ -1,9 +1,14 @@
 package com.imm.websocket.handler;
 
+import com.google.gson.Gson;
+import com.imm.model.protoc.Header;
+import com.imm.model.protoc.Message;
+import com.imm.model.protoc.MessageEnum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
@@ -21,6 +26,24 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     //接收文本消息，并发送出去
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        Gson gson=new Gson();
+        Message rece_mesage = gson.fromJson(message.toString(), Message.class);
+        Header header = rece_mesage.getHead();
+        String type = header.getType();
+        switch (type){
+            case MessageEnum.TYPE_SYSTEM:
+                session.sendMessage(new TextMessage("收到"));
+                break;
+            case MessageEnum.TYPE_USER:
+                session.sendMessage(new TextMessage("收到"));
+                break;
+            case MessageEnum.TYPE_HANDSHAKE:
+                session.sendMessage(new TextMessage("收到"));
+                break;
+            default:
+                session.sendMessage(new TextMessage("消息解码异常请刷新后使用"));
+                session.close();
+        }
         logger.info(message);
         super.handleTextMessage(session, message);
     }

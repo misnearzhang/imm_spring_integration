@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="60">
+
     <title>WebSocket/SockJS Echo Sample (Adapted from Tomcat's echo sample)</title>
     <script type="application/javascript" src="resource/js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript">
@@ -28,6 +36,10 @@
                 console.log('Error occured: ' + evt.data);
                 jQuery("#status").val("链接失败");
             }
+
+            jQuery("#refresh").onclick(function () {
+                websocket = new WebSocket(wsServer);
+            });
         });
 
     </script>
@@ -35,7 +47,8 @@
 <body>
 <div>
     <div>
-        <p id="status">等待链接...</p>
+        <input id="status" type="text" value="等待链接" disabled="disabled" style="align-content: center" />
+        <input type="button" id="refresh" value="刷新">
     </div>
 </div>
 </body>

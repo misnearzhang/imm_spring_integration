@@ -87,7 +87,7 @@
 
 
 
-        <table tableName="relation"  domainObjectName="Relation" enableCountByExample="false" enableUpdateByExample="false"
+        <table tableName="offline_message"  domainObjectName="OfflineMessage" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"   selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>

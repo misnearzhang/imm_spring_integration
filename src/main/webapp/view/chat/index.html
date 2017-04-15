@@ -11,10 +11,12 @@
 
     <title>WebSocket/SockJS Echo Sample (Adapted from Tomcat's echo sample)</title>
     <script type="application/javascript" src="resource/js/jquery-1.7.2.min.js"></script>
+    <script type="application/javascript" src="resource/js/reconnecting-websocket.min.js"></script>
+    <script type="application/javascript" src="resource/js/protoc.js"></script>
     <script type="text/javascript">
         var  wsServer = 'ws://localhost:8080/connection.htm';
         jQuery(document).ready(function(){
-            var  websocket = new WebSocket(wsServer);
+            var websocket = new ReconnectingWebSocket(wsServer, null, {debug: true, reconnectInterval: 3000});
             websocket.onopen = function (evt) {
                 onOpen(evt)
             };
@@ -37,8 +39,24 @@
                 jQuery("#status").val("链接失败");
             }
 
-            jQuery("#refresh").on('click',function () {
+            /*jQuery("#refresh").on('click',function () {
                 websocket = new WebSocket(wsServer);
+                alert(websocket)
+            });*/
+
+            jQuery("#send").on('click',function () {
+                var send = jQuery("#insert").val();
+                if(send!=''){
+                    var head = new header();
+                    head.status='100';
+                    head.type='system';
+                    head.uuid='asd';
+                    var msg = new  message();
+                    msg.head=head;
+                    msg.body=send;
+                    websocket.send(msg);
+                }
+                jQuery("#insert").val("");
             });
         });
 
@@ -49,6 +67,10 @@
     <div>
         <input id="status" type="text" value="等待链接" disabled="disabled" style="align-content: center" />
         <input type="button" id="refresh" value="刷新">
+    </div>
+    <div id="input">
+        <input id="insert" type="text"  style="align-content: center" />
+        <input type="button" id="发送消息" value="send">
     </div>
 </div>
 </body>

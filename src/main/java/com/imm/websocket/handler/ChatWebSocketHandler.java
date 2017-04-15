@@ -26,7 +26,9 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     //接收文本消息，并发送出去
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        logger.info(new String(message.asBytes()));
         Gson gson=new Gson();
+        session.sendMessage(new TextMessage("收到message"));
         Message rece_mesage = gson.fromJson(message.toString(), Message.class);
         Header header = rece_mesage.getHead();
         String type = header.getType();
@@ -42,7 +44,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
                 break;
             default:
                 session.sendMessage(new TextMessage("消息解码异常请刷新后使用"));
-                session.close();
+                //session.close();
         }
         logger.info(message);
         super.handleTextMessage(session, message);

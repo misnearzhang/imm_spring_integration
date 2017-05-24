@@ -141,4 +141,7 @@
     SELECT * FROM user u WHERE u.account=#{account} AND u.password=#{password}
   </select>
 
+  <select id="findByAccount" resultType="com.imm.model.po.User">
+    SELECT * FROM user u WHERE u.account=#{account}
+  </select>
 </mapper>

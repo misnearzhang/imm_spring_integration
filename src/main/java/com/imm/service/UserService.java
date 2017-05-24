@@ -16,4 +16,6 @@ public interface UserService {
     int delete(Integer id);
 
     boolean loginByAccountAndPassword(String account, String password);
+
+    User getByAccount(String account);
 }

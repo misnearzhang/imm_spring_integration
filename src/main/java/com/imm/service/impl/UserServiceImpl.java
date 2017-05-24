@@ -38,4 +38,10 @@ public class UserServiceImpl implements UserService {
     }
     return false;
   }
+
+  @Override
+  public User getByAccount(String account) {
+    return userDao.findByAccount(account);
+  }
+
 }

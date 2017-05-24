@@ -97,4 +97,6 @@ public interface UserMapper {
     List<User> listAll();
 
     User checkUser(@Param("account")String account, @Param("password") String password);
+
+    User findByAccount(@Param("account")String account);
 }

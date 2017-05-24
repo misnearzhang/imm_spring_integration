@@ -2,6 +2,7 @@ package com.imm.controller;
 
 import com.google.gson.Gson;
 import com.imm.model.po.Friends;
+import com.imm.model.po.User;
 import com.imm.service.RelationService;
 import com.imm.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,12 +46,10 @@ public class UserVerifyAction {
      * client客户端用户登录
      */
     @RequestMapping("/imm/login.htm")
-    public void userLogin(HttpServletRequest request, HttpServletResponse response,String account,String password){
-        Gson gson=new Gson();
-        PrintWriter printWriter=null;
+    @ResponseBody
+    public Object userLogin(HttpServletRequest request, HttpServletResponse response,String account,String password){
         Map map=new HashMap();
         try {
-            printWriter=response.getWriter();
             boolean isVerify=userService.loginByAccountAndPassword(account,password);
             if(isVerify){
                 //用户登录成功 给core推送口令  同时给用户返回口令
@@ -64,23 +64,18 @@ public class UserVerifyAction {
             map.put("status",500);
             map.put("desc","内部错误,请稍后再试");
             e.printStackTrace();
-        }finally {
-            printWriter.write(gson.toJson(map));
-            printWriter.flush();
-            printWriter.close();
         }
+        return map;
     }
 
     /**
      * client客户端用户登录
      */
     @RequestMapping("/imm/getFriendsList.htm")
-    public void getFriends(HttpServletRequest request, HttpServletResponse response,String account,String password){
-        Gson gson=new Gson();
-        PrintWriter printWriter=null;
+    @ResponseBody
+    public Object getFriends(HttpServletRequest request, HttpServletResponse response,String account,String password){
         Map map=new HashMap();
         try {
-            printWriter=response.getWriter();
             List<Friends> list=relationService.getFriendList(account);
             if(list!=null&&list.size()>0){
                 //用户登录成功 给core推送口令  同时给用户返回口令
@@ -96,10 +91,13 @@ public class UserVerifyAction {
             map.put("status",500);
             map.put("desc","内部错误,请稍后再试");
             e.printStackTrace();
-        }finally {
-            printWriter.write(gson.toJson(map));
-            printWriter.flush();
-            printWriter.close();
         }
+        return map;
+    }
+    @RequestMapping("/imm/FreshFriendList.htm")
+    @ResponseBody
+    public Object freshFriendList(String account){
+        User user = userService.getByAccount(account);
+        return user;
     }
 }

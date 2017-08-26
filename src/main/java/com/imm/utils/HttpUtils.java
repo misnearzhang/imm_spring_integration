@@ -122,7 +122,6 @@ public class HttpUtils {
 	/**
 	 * @description 发送HTTP请求
 	 * @param url
-	 * @param parameters
 	 * @return
 	 * @throws IOException
 	 */

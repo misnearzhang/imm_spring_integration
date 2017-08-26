@@ -40,6 +40,7 @@
                 <value>classpath*:properties/coreserver.properties</value>
                 <value>classpath*:properties/log4j2.properties</value>
                 <value>classpath*:properties/mq.properties</value>
+                <value>classpath*:properties/weixin.properties</value>
             </list>
         </property>
     </bean>

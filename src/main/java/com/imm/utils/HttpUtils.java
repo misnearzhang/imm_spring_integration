@@ -34,8 +34,6 @@ public class HttpUtils {
 	private static int readTimeout = 15*1000;
 	
 	public static void main(String[] args) throws Exception {
-//		String result = postRequest(new URL("http://www.renren.com"), null);
-//		System.out.println(result);
 	}
 	
 	public static String getRequest(URL url) throws Exception {

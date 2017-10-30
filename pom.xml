@@ -278,7 +278,7 @@
                   <destFileName>ROOT.war</destFileName>
                 </artifactItem>
               </artifactItems>
-              <outputDirectory>/home/Downloads/apache-tomcat</outputDirectory>
+              <outputDirectory>/root/apache-tomcat-8.5.11/webapps</outputDirectory>
             </configuration>
           </execution>
         </executions>

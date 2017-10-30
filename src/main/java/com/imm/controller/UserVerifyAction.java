@@ -61,7 +61,7 @@ public class UserVerifyAction {
                 map.put("desc","userName or password err");
             }
         }catch (Exception e){
-            map.put("status",500);
+            map.put("status","500");
             map.put("desc","内部错误,请稍后再试");
             e.printStackTrace();
         }

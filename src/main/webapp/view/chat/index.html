@@ -14,7 +14,7 @@
     <script type="application/javascript" src="resource/js/reconnecting-websocket.min.js"></script>
     <script type="application/javascript" src="resource/js/protoc.js"></script>
     <script type="text/javascript">
-        var  wsServer = 'ws://45.32.10.203:8080/connection.htm';
+        var  wsServer = 'ws://127.0.0.1:8080/connection.htm';
         jQuery(document).ready(function(){
             var websocket = new ReconnectingWebSocket(wsServer, null, {debug: true, reconnectInterval: 3000});
             websocket.onopen = function (evt) {
@@ -47,14 +47,7 @@
             jQuery("#send").on('click',function () {
                 var send = jQuery("#insert").val();
                 if(send!=''){
-                    var head = new header();
-                    head.status='100';
-                    head.type='system';
-                    head.uuid='asd';
-                    var msg = new  message();
-                    msg.head=head;
-                    msg.body=send;
-                    websocket.send(msg);
+                    websocket.send(send);
                 }
                 jQuery("#insert").val("");
             });
